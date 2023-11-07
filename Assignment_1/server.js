@@ -16,7 +16,7 @@ app.all('*', function (request, response, next) {
 __dirname represents the directory of the current module (where server.js is located)
 __dirname + "./products.json" specifies the location of products.json
 */
-const products = require(__dirname + "./products.json");
+const products = require(__dirname + "/products.json");
 products.forEach( (prod,i) => {prod.total_sold = 0});
 // Define a route for handling a GET request to a path that matches "./products.js"
 app.get('./products.js', function(request, response, next) {
