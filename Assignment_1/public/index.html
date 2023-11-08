@@ -1,64 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <style>
-    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
-    .navbar {
-      margin-bottom: 50px;
-      border-radius: 0;
-    }
-    /* Remove the jumbotron's default bottom margin */ 
-     .jumbotron {
-      margin-bottom: 0;
-    }
-    /* Add a gray background color and some padding to the footer */
-    footer {
-      background-color: #f2f2f2;
-      padding: 25px;
-    }
-  </style>
+    <title>Shoe Store</title>
+    <form action="../server.js" method="POST">
 </head>
 <body>
-
-<div class="jumbotron">
-  <div class="container text-center">
-    <h1>Online Store</h1>      
-<p>Mission, Vission & Values</p>
-  </div>
-</div>
-
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#">Logo</a>
+    <div class = "jumbotron">
+    <h1><span id="top_title">Cool Shoe Store</span></h1>
+    <h2>Wear History. It's cool.</h2>
     </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
-      </ul>
+    <form id = "productForm" name="quantity_form" action="process_form" method="POST">
+    <div>
+        <main class="main">
+        </main>
     </div>
-  </div>
-</nav>
-<!--Products Display Here-->
-<div id = "content-container"></div>
-
-<footer class="container-fluid text-center">
-  <p>Online Store Copyright</p>  
-  <form class="form-inline">Get deals:
-    <input type="email" class="form-control" size="50" placeholder="Email Address">
-    <button type="button" class="btn btn-danger">Sign Up</button>
+    <div id="panel-container"></div>
+      <!-- Your product sections go here -->
+    </div>
   </form>
+</body>
+<footer>
+    <h1><span id="bottom_title"></span></h1>
 </footer>
 <script src="../index.js"></script>
-<script type="text/javascript" src="./products.js"></script>
-</body>
 </html>
+
+
+

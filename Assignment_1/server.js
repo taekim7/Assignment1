@@ -1,8 +1,5 @@
 // Importing the Express.js framework 
 const express = require('express');
-// Create an instance of the Express application called "app"
-// The Express application
-
 // app will be used to define routes, handle requests, etc
 const app = express();
 
@@ -12,6 +9,13 @@ app.all('*', function (request, response, next) {
    next();
 });
 
+
+app.post("/process_form", function (req, res) {
+	let name = products[0]['name'];
+	let price = products[0]['price'];
+	process_quantity_form(req, res);
+});
+
 /* Import data from a JSON file containing information about products
 __dirname represents the directory of the current module (where server.js is located)
 __dirname + "./products.json" specifies the location of products.json
@@ -19,15 +23,12 @@ __dirname + "./products.json" specifies the location of products.json
 const products = require(__dirname + "/products.json");
 products.forEach( (prod,i) => {prod.total_sold = 0});
 // Define a route for handling a GET request to a path that matches "./products.js"
-app.get('./products.js', function(request, response, next) {
+app.get('/products.js', function(request, response, next) {
 	// Send the response as JS
 	response.type('.js');
-	
- 
 	// Create a JS string (products_str) that contains data loaded from the products.json file
 	// Convert the JS string into a JSON string and embed it within variable products
 	let products_str = `let products = ${JSON.stringify(products)};`;
-    response.send(products_str);
 	// Send the string in response to the GET request
 	response.send(products_str);
 });
