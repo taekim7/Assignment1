@@ -1,3 +1,4 @@
+/*Products display css*/
 /* Remove the navbar's default rounded borders and increase the bottom margin */ 
 .navbar {
     margin-bottom: 50px;
@@ -15,7 +16,7 @@
   }
 
 .item img {
-    width: 400px; /* Adjust the width as needed */
+    width: 430px; /* Adjust the width as needed */
     height: 300px; /* Adjust the height as needed */
     object-fit: cover; /* This property ensures the image fits within the specified dimensions and maintains its aspect ratio */
 }
@@ -23,15 +24,49 @@
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Create a 3-column grid */
-    gap: 10px; /* Adjust the gap between grid items as needed */
+    gap: 20px; /* Adjust the gap between grid items as needed */
   }
 
   .main {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Create a 3-column grid */
     gap: 10px; /* Adjust the gap between grid items as needed */
-    padding: 20px;
-    background-color: #f2f2f2;
+    padding: 0;
+    margin: 0;
+    background-color: linear-gradient(45deg, black 0%, black 50%, red 50%, red 100%); 
     text-align: center;
     
+  }
+  body{
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(
+      to right,
+      red 0%,
+      light red 50%,
+      black 50%,
+      black 100%
+    );
+  }
+  h1 {
+    font-family: 'Lato', sans-serif; /* Change "Your Desired Font" to the font you want to use */
+    font-size: 50px; /* Change the font size as needed */
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: black;
+    font-weight: bold;
+    font-style: oblique;
+  }
+
+
+  h3 {
+    font-family: 'Lato', sans-serif; /* Change "Your Desired Font" to the font you want to use */
+    font-size: 30px; /* Change the font size as needed */
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: black;
+    font-weight: bold;
+    font-style: oblique;
   }
