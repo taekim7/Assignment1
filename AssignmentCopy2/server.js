@@ -16,6 +16,13 @@ app.all('*', function (request, response, next) {
    next();
 });
 
+app.get("/products.js", function (request, response, next) {
+   response.type('.js');
+   let products_str = `let products = ${JSON.stringify(products)};`;
+   response.send(products_str);
+});
+
+
 // Route all other GET requests to serve static files from a directory named "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
