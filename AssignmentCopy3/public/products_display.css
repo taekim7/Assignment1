@@ -7,8 +7,13 @@
   /* Remove the jumbotron's default bottom margin */ 
    .jumbotron {
     margin-bottom: 0;
-    background-color: whitesmoke;
+    background-image: url(./images/bballcourt.jpeg);
+    background-size: cover;
+    background-position: center;
   }
+
+  /*background image*/
+
   /* Add a gray background color and some padding to the footer */
   footer {
     background-color: white;
@@ -48,17 +53,30 @@
       black 100%
     );
   }
+
   h1 {
     font-family: 'Lato', sans-serif; /* Change "Your Desired Font" to the font you want to use */
     font-size: 50px; /* Change the font size as needed */
     text-align: center;
     margin-top: 50px;
     margin-bottom: 50px;
-    color: black;
+    color: white;
+    background-color: white;
+    background-size:auto;
     font-weight: bold;
-    font-style: oblique;
+    font-style: italic;
   }
 
+  p {
+    font-family: 'Lato', sans-serif; /* Change "Your Desired Font" to the font you want to use */
+    font-size: 25px; /* Change the font size as needed */
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: white;
+    font-weight: bold;
+    font-style:initial;
+  }
 
   h3 {
     font-family: 'Lato', sans-serif; /* Change "Your Desired Font" to the font you want to use */
