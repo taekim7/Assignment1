@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css?family=Lato");
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, black 0%, black 50%, red 50%, red 100%);
+    text-align: center;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    background-color: antiquewhite
+}
+
+.text1{
+    font-size: 15;
+    color: azure;
+}
+
+.info{
+    line-height: 15px;
+}
+
+.cost span{
+    color: rgb(238, 236, 233);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.button-color{
+    background-color: azure;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+/* Remove the navbar's default rounded borders and increase the bottom margin */ 
+.navbar {
+    margin-bottom: 50px;
+    border-radius: 0;
+    color: darkgrey;
+}
+
+/* Remove the jumbotron's default bottom margin */ 
+    .jumbotron {
+    margin-bottom: 0;
+    background-color: linear-gradient(45deg, black 0%, black 50%, red 50%, red 100%);
+    width: fit-content;
+    height: fit-content;
+    color: black;
+}
+
+/* Add a gray background color and some padding to the footer */
+footer {
+    background-color: black;
+    color: white;
+    padding: 25px;
+}
+
+.item img {
+    width: 400px; /* Adjust the width as needed */
+    height: 300px; /* Adjust the height as needed */
+    object-fit: cover; /* This property ensures the image fits within the specified dimensions and maintains its aspect ratio */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create a 3-column grid */
+    gap: 20px; /* Adjust the gap between items as needed */
+    padding: 20px;
+    background-color: white;
+}
+
+h1 {
+    font-family: 'Lato', sans-serif; /* Change "Your Desired Font" to the font you want to use */
+    font-size: 50px; /* Change the font size as needed */
+}
+h2 {
+    font-family: 'Lato', sans-serif; /* Change "Your Desired Font" to the font you want to use */
+    font-size: 35px; /* Change the font size as needed */
+    color: white;
+}
+.product-img {
+    display: block;
+    width: 480px; /* Adjust the width as needed */
+    height: 300px; /* Adjust the height as needed */
+    object-fit: cover; /* This property ensures the image fits within the specified dimensions and maintains its aspect ratio */
+    transition: let(--mainTransition);
+}
+
+.img-container:hover .product-img {
+    opacity: 0.5;
+}
+.products-center {
+    width: 90vw;
+    margin: 0 auto;
+    max-width: 1170px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-column-gap: 1.5rem;
+    grid-row-gap: 2rem;
+}
+
+.img-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.bag-brn {
+    position:absolute;
+    top: 70%;
+    right: 0;
+    background: let(--primaryColor);
+    border: none;
+    text-transform: uppercase;
+    padding: 0.5rem 0.75rem;
+    letter-spacing: let(--mainSpacing);
+    font-weight: bold;
+    transition: let(--mainTransition);
+    transform: translateX(101%);
+    cursor: pointer;
+}
+
+.bag-btn:hover {
+    color: let(--mainWhite);
+}
+
+.fa-shopping-cart{
+    margin-right: 0.5rem;
+}
+
+.img-container:hover .bag-btn {
+    transform: translateX(0);
+}

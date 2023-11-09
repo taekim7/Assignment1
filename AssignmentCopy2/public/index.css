@@ -19,22 +19,24 @@ h1, h2, h3 {
     margin: 0;
 }
 
-img {
-    max-width: 50%;
-    height: auto;
+img src {
+    max-width: 25%;
+    height: 25%;
 }
 
 h1 {
     font-family: 'Lato', sans-serif; /* Change "Your Desired Font" to the font you want to use */
-    font-size: 50px; /* Change the font size as needed */
+    font-size: 100px; /* Change the font size as needed */
+    color: azure;
 }
 
 h2 {
     font-family: 'Quicksand', sans-serif; /* Change "Your Desired Font" to the font you want to use */
-    font-size: 20px; /* Change the font size as needed */
+    font-size: 50px; /* Change the font size as needed */
+    color: azure;
 }
 
 h3 {
     font-family: 'Quicksand', sans-serif; /* Change "Your Desired Font" to the font you want to use */
-    font-size: 15px; /* Change the font size as needed */
+    font-size: 40px; /* Change the font size as needed */
 }
