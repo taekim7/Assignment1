@@ -80,22 +80,11 @@ for (let i in products) {
 `;
 }
 */
+//Create loop using the arrays from products.json and generate it into the html
 
 
-// Loop through the products and generate the HTML for each product
-products.forEach((product, index) => {
-  formHTML += `
-      <div class="product">
-          <h3>${product.name} - $${product.price}</h3>
-          <img src="${product.image}" alt="${product.name}" class="product-image">
-          <label for="quantity_textbox${index}">Quantity Desired:</label>
-          <input type="text" name="quantity_textbox${index}" onkeyup="checkQuantityTextbox(this)">
-          <span id="quantity_textbox${index}_message">Enter a quantity</span>
-      </div>
-  `;
-});
 
-form.innerHTML = formHTML;
+
 
 
 
@@ -107,8 +96,6 @@ formHTML += `<br> <input type = "submit" value = "Purchase">`;
 form.innerHTML = formHTML;
 }
 */
-
-
 
 
 // Update remaining quantity
@@ -128,31 +115,26 @@ for (let i = 0; i < products.length; i++) {
     updateRemainingQuantity(i, this);
   });
 }
+
 //add the checkQuantityTextbox()
 function checkQuantityTextbox(theTextbox) {
   let errs = validateQuantity(theTextbox.value, true);
   document.getElementById(theTextbox.name + '_message').innerHTML = errs;
 }
+
+
 //Validating Quantity
-function validateQuantity (quantity) {
+function validateQuantity(quantity) {
   let errorMessage = "";
 
-  switch (true) {
-      case isNaN(quantity):
-      errorMessage = "Not a number. Please enter a non-negative quantity to order.";
-      break;
-      case quantity <= 0 && !Number.isInteger(quantity):
-      errorMessage = "Negative inventory and not an Integer. Please enter a non-negative quantity to order.";
-      break;
-      case quantity <= 0:
-      errorMessage = "Negative inventory. Please enter a non-negative quantity to order.";
-      break;
-      case !Number.isInteger(quantity):
-      errorMessage = "Not an Integer. Please enter a non-negative quantity to order.";
-      break;
-      default:
-          errorMessage = ""; //No errors
-          break;
+  if (isNaN(quantity)) {
+    errorMessage = "Not a number. Please enter a non-negative quantity to order.";
+  } else if (quantity <= 0 && !Number.isInteger(quantity)) {
+    errorMessage = "Negative inventory and not an Integer. Please enter a non-negative quantity to order.";
+  } else if (quantity <= 0) {
+    errorMessage = "Negative inventory. Please enter a non-negative quantity to order.";
+  } else if (!Number.isInteger(quantity)) {
+    errorMessage = "Not an Integer. Please enter a non-negative quantity to order.";
   }
 
   return errorMessage;
