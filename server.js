@@ -107,10 +107,11 @@ app.post("/process_form", function (request, response) {
         }
     });
 
+
 // Redirect route
-app.get('/invoice.html', function (request, response) {
+app.get('./public/invoice.html', function (request, response) {
     // You can include any necessary logic or data here before rendering the receipt page
-    response.sendFile(__dirname + '/invoice.html');
+    response.sendFile(__dirname + './public/invoice.html');
 });
 
 
