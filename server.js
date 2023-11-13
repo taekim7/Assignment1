@@ -83,47 +83,6 @@ app.all('*', function (request, response, next) {
 //Process Form Stuff
  app.post("/process_form", function (request, response) {
 
-    //retrieve quantities from textbox input in array
-    let qtys = request.body[`quantity_textbox`];
-    let valid = true;
-    let url = '';
-    let soldArray = [];
-
-    for (i in qtys){
-        let q = Number(qtys[i]);
-        
-        if (validateQuantity(q)==''){
-            if (products[i]['qty_available'] - Number(q) < 0) {
-                valid = false;
-                url += `&prod${i}=${q}`
-            }else{
-                soldArray[i] = Number(q);
-                url += `&prod${i}=${q}`
-            }
-            }
-            else {
-                valid = false;
-                url += `&prod${i}=${q}`
-            }
-            if (url ==`&prod0=0&prod1=0&prod2=0&prod3=0&prod4=0&prod5=0`){
-                valid = false;
-            }
-        }
-    if (valid == false)
-    {
-        response.redirect(`${url}?error=true` + url);
-    }
-    else {
-        for (i in qtys)
-        {
-            products[i]['total_sold'] += soldArray[i];
-            products[i]['qty_available'] -= soldArray[i];
-        }
-        response.redirect('invoice.html?' + url);
-    }
-})
-
-    /*
     // Loop through the products
     for (let i in products) {
       let qty = Number(request.body[`quantity_textbox${i}`]);
@@ -157,7 +116,7 @@ app.all('*', function (request, response, next) {
       response.redirect(`/invoice.html${url}`);
     }
   });
-*/
+
 
 
 

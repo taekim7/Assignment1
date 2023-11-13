@@ -277,4 +277,3 @@ document.getElementById('productForm').addEventListener('submit', function (even
   .catch(error => console.error('Error submitting the form:', error));
 });
 
-// Other existing code in your invoice.js file...
