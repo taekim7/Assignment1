@@ -7,6 +7,7 @@ const express = require('express');
 const app = express();
 
 
+
 // Route all other GET requests to serve static files from a directory named "public"
 app.use(express.static(__dirname + '/public'));
 
@@ -79,41 +80,137 @@ app.all('*', function (request, response, next) {
  });
 
 
+//Process Form Stuff
+ app.post("/process_form", function (request, response) {
 
+    //retrieve quantities from textbox input in array
+    let qtys = request.body[`quantity_textbox`];
+    let valid = true;
+    let url = '';
+    let soldArray = [];
+
+    for (i in qtys){
+        let q = Number(qtys[i]);
+        
+        if (validateQuantity(q)==''){
+            if (products[i]['qty_available'] - Number(q) < 0) {
+                valid = false;
+                url += `&prod${i}=${q}`
+            }else{
+                soldArray[i] = Number(q);
+                url += `&prod${i}=${q}`
+            }
+            }
+            else {
+                valid = false;
+                url += `&prod${i}=${q}`
+            }
+            if (url ==`&prod0=0&prod1=0&prod2=0&prod3=0&prod4=0&prod5=0`){
+                valid = false;
+            }
+        }
+    if (valid == false)
+    {
+        response.redirect(`${url}?error=true` + url);
+    }
+    else {
+        for (i in qtys)
+        {
+            products[i]['total_sold'] += soldArray[i];
+            products[i]['qty_available'] -= soldArray[i];
+        }
+        response.redirect('invoice.html?' + url);
+    }
+})
+
+    /*
+    // Loop through the products
+    for (let i in products) {
+      let qty = Number(request.body[`quantity_textbox${i}`]);
+      let validationMessage = validateQuantity(qty, products[i]["qty_available"]);
+  
+      // Validate quantity
+      if (validationMessage === "") {
+        // Update the quantities array
+        quantities.push(qty);
+  
+        // Append information to the URL string
+        url += `&prod${i}=${qty}`;
+      } else {
+        hasValidationErrors = true;
+        break; // Break the loop if there is an error
+      }
+    }
+  
+    // If there are validation errors, redirect to the store with an error parameter
+    if (hasValidationErrors) {
+      response.redirect(`${url}?error=true`);
+    } else {
+      // If there are no errors, update quantities in the products array
+      for (let i in products) {
+        // Assuming products is an array of items with a corresponding index
+        products[i]['qty_available'] -= quantities[i];
+        products[i]['total_sold'] += quantities[i];
+      }
+  
+      // Redirect to invoice.html with relevant data
+      response.redirect(`/invoice.html${url}`);
+    }
+  });
+*/
+
+
+
+/*
 // Process form
 app.post("/process_form", function (request, response) {
-	let invoice = '';
     let hasValidationErrors = false;
-    // Assuming products is an array of items with a corresponding index
+    let url = '/store'; // Redirect URL for store page
+    let quantities = [];
+  
+
+    // Loop through the products
     for (let i in products) {
-        let qty = Number(request.body[`quantity_textbox${i}`]); // Corrected the variable name to qty
-        let validationMessage = validateQuantity(qty, products[i]["qty_available"]);
-        
-        if (validationMessage === "") {
-            products[i]['total_sold'] += qty;
-            let productTotal = qty * products[i]["price"];
-            calculatedTotal += productTotal;
-            invoice += `<h3>Mahalo! Enjoy your: ${qty} ${products[i]["name"]}. Your total is \$${productTotal.toFixed(2)}</h3>`;
-        } else {
-            hasValidationErrors = true;
-            invoice += `<h3><font color="red">${qty} is not a valid quantity for ${products[i]["name"]}!<br>${validationMessage}</font></h3>`;
-        }
+      let qty = Number(request.body[`quantity_textbox${i}`]);
+      let validationMessage = validateQuantity(qty, products[i]["qty_available"]);
+  
+      // Validate quantity
+      if (validationMessage === "") {
+        // Update the quantities array
+        quantities.push(qty);
+  
+        // Append information to the URL string
+        url += `&prod${i}=${qty}`;
+      } else {
+        hasValidationErrors = true;
+        break; // Break the loop if there is an error
+      }
     }
-        //If there are validation errors
-        if (hasValidationErrors) {
-            response.status(400).send(invoice);
-        }else{
-            response.send(JSON.stringify({ invoice: invoice, total: calculatedTotal }));
-        }
-    });
+  
+    // If there are validation errors, redirect to the store with an error parameter
+    if (hasValidationErrors) {
+      response.redirect(`${url}?error=true`);
+    } else {
+      // If there are no errors, update quantities in the products array
+      for (let i in products) {
+        // Assuming products is an array of items with a corresponding index
+        products[i]['qty_available'] -= quantities[i];
+        products[i]['total_sold'] += quantities[i];
+      }
+  
+      // Redirect to invoice.html with relevant data
+      response.redirect(`/invoice.html${url}`);
+    }
+  });
+*/
 
-
+/*
 // Redirect route
 app.get('./public/invoice.html', function (request, response) {
     // You can include any necessary logic or data here before rendering the receipt page
     response.sendFile(__dirname + './public/invoice.html');
 });
-
+*/
 
  // Start the server; listen on port 8080 for incoming HTTP requests
  app.listen(8080, () => console.log(`listening on port 8080`));
