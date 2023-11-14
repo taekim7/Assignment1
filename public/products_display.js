@@ -1,6 +1,5 @@
 //products_display.js
 
-
 const productForm = document.getElementById('productForm');
 
 /*
@@ -45,7 +44,6 @@ for (let i = 0; i < products.length; i++) {
         <input type="text" class="quantity-input" name="quantity_textbox${i}" value="0" min="0" data-max="${products[i]["qty_available"]}"/>
         <span class="quantity-message" id="quantity_textbox_${i}_message">Enter a quantity</span>
     `;
-
   productDisplayContainer.appendChild(productDiv);
   };
 
@@ -62,7 +60,7 @@ document.querySelectorAll('.quantity-input').forEach((input, i) => {
 });
 
 
-
+/*
 // Event listener for form submission
 document.getElementById('productForm').addEventListener('submit', function (event) {
   event.preventDefault(); // Prevent the default form submission behavior
@@ -82,7 +80,28 @@ document.getElementById('productForm').addEventListener('submit', function (even
  })
  .catch(error => console.error('Error submitting the form:', error));
 });
+*/
 
+
+//Declare params
+let params = (new URL(document.location)).searchParams;
+if (params.has('error')) {
+    document.getElementById('error-message').innerHTML = "no quantities selected";
+    setTimeout (() => {
+        document.getElementById('error-message').innerHTML = "";
+    }, 3000);
+    }
+    for (let i in products) {
+        if (params.get(`qty${i}`) == 0) {
+            qty_form[`qty${i}_entered`].value = '';
+        }else{
+            qty_form[`qty${i}_entered`].value = params.get(`qty${i}`);
+            qty_form[`qty${i}_entered`].parentElement.style.borderColor = "red";
+        }
+        errors = isNonNegInt(params.get(`qty${i}`), true)
+        document.getElementById(`qty${i}_error`).innerHTML = errors.join('');
+            
+    }
 
   
 // Function to validate quantity

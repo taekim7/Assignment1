@@ -6,30 +6,23 @@ const express = require('express');
 // app will be used to define routes, handle requests, etc
 const app = express();
 
-
+const qs = require('querystring');
 
 // Route all other GET requests to serve static files from a directory named "public"
 app.use(express.static(__dirname + '/public'));
-
-//app.get for test was executed
-app.get('/test', function(req, res){
-	res.send('app.get for test was executed');
-	console.log('app.get for test was executed');
-})
-
 
 /* Import data from a JSON file containing information about products
 __dirname represents the directory of the current module (where server.js is located)
 __dirname + "./products.json" specifies the location of products.json
 */
 let products = require(__dirname + '/products.json');
-products.forEach( (prod,i) => {prod.total_sold = 0});
+
+for (i in products) {
+  products.forEach( (prod,i) => {prod.total_sold = 0});
+}
 
 
-
-
-
-
+/*
 // Example using fs.promises.readFile (asynchronous)
 const fs = require('fs').promises;
 
@@ -52,12 +45,7 @@ async function loadProducts() {
         console.error('Error loading products: ' + err);
     }
     }
-
-
-
-
-
-
+*/
 
     
 // Define a route for handling a GET request to a path that matches "./products.js"
@@ -82,17 +70,20 @@ app.all('*', function (request, response, next) {
 
 //Process Form Stuff
  app.post("/process_form", function (request, response) {
+  
+  let POST = request.body;
 
     // Loop through the products
     for (let i in products) {
-      let qty = Number(request.body[`quantity_textbox${i}`]);
-      let validationMessage = validateQuantity(qty, products[i]["qty_available"]);
+      let qty = POST[`quantity_textbox${i}`];
+      console.log(qty);
+      let validationMessage = validateQuantity(qty);
   
       // Validate quantity
       if (validationMessage === "") {
         // Update the quantities array
         quantities.push(qty);
-  
+        
         // Append information to the URL string
         url += `&prod${i}=${qty}`;
       } else {
@@ -103,17 +94,17 @@ app.all('*', function (request, response, next) {
   
     // If there are validation errors, redirect to the store with an error parameter
     if (hasValidationErrors) {
-      response.redirect(`${url}?error=true`);
+    response.redirect("./products_display.html?"+qs.stringify(request.body) + "&validationMessage");
     } else {
       // If there are no errors, update quantities in the products array
       for (let i in products) {
         // Assuming products is an array of items with a corresponding index
         products[i]['qty_available'] -= quantities[i];
-        products[i]['total_sold'] += quantities[i];
+        products[i]['total_sold'] += Number(quantities[i]);
       }
   
       // Redirect to invoice.html with relevant data
-      response.redirect(`/invoice.html${url}`);
+      response.redirect("/invoice.html?valid&"+qs.stringify(request.body));
     }
   });
 
