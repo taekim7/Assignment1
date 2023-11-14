@@ -2,26 +2,7 @@
 
 const productForm = document.getElementById('productForm');
 
-/*
-productForm.addEventListener('submit', function (event) {
-    event.preventDefault();
 
-    const formData = new FormData(productForm);
-
-    fetch('/process_form', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Assuming data contains the URL for the invoice page
-        let { invoiceUrl, quantities} = data;
-        let urlWithQuantities = `${invoiceUrl}?${quantities.map=$((qty, i) => `qty${i}=${qty}`).join('&')}`;
-        window.location.href = data.invoiceUrl;
-    })
-    .catch(error => console.error('Error submitting the form:', error));
-});
-*/
 
 // declare and push to the DOM the store name at top and bottom
 let store_name = "Cool Shoe Store";
@@ -47,43 +28,11 @@ for (let i = 0; i < products.length; i++) {
   productDisplayContainer.appendChild(productDiv);
   };
 
-// Add an event listener to each quantity input for real-time validation
-document.querySelectorAll('.quantity-input').forEach((input, i) => {
-  input.addEventListener('input', function () {
-      const quantityMessage = document.getElementById(`quantity_textbox_${i}_message`);
-      const qty = Number(this.value);
-      const validationMessage = validateQuantity(qty, products[i]["qty_available"]);
 
-      // Update error message dynamically
-      quantityMessage.textContent = validationMessage;
-  });
-});
 
 
 /*
-// Event listener for form submission
-document.getElementById('productForm').addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent the default form submission behavior
-
- // Fetch the form action attribute (the URL to redirect to)
- const actionUrl = this.action;
-
- // Use fetch API to handle the form submission and redirect
- fetch(actionUrl, {
-     method: 'POST',
-     body: new FormData(this),
- })
- .then(response => response.text())
- .then(invoiceContent => {
-     // Redirect to the invoice page with the receipt parameter
-     window.location.href = `invoice.html?receipt=${encodeURIComponent(invoiceContent)}`;
- })
- .catch(error => console.error('Error submitting the form:', error));
-});
-*/
-
-
-//Declare params
+  //Declare params
 let params = (new URL(document.location)).searchParams;
 if (params.has('error')) {
     document.getElementById('error-message').innerHTML = "no quantities selected";
@@ -102,6 +51,59 @@ if (params.has('error')) {
         document.getElementById(`qty${i}_error`).innerHTML = errors.join('');
             
     }
+*/
+
+// Get the URL
+let params = (new URL(document.location)).searchParams;
+
+window.onload = function() {
+    /* If there is a server side validation error
+    Display message to user and allow them to edit their inputs
+    User input is made sticky by retrieving quantities from the URL 
+    Those inputs are validated by isNonNegInt again */
+
+    if (params.has('error')) {
+       
+        document.getElementById('errMsg').innerHTML = "No quantities selected.";
+        setTimeout(() => {
+            document.getElementById('errMsg').innerHTML = "";
+        }, 2000);
+    } 
+    else if (params.has('inputErr')) {
+        document.getElementById('errMsg').innerHTML = "Please fix errors before proceeding."
+        setTimeout(() => {
+            document.getElementById('errMsg').innerHTML = "";
+        }, 2000);
+
+        for (let i in products) {
+            if (params.get(`qty${i}`) == 0) {
+                qty_form[`qty${i}_entered`].value = '';
+            } else {
+                qty_form[`qty${i}_entered`].value = params.get(`qty${i}`);
+                qty_form[`qty${i}_entered`].parentElement.style.borderColor = "red";
+            }
+            errors = validateQuantity(params.get(`qty${i}`))
+            document.getElementById(`qty${i}_error`).innerHTML = errors.join('');  
+        }
+        alert("errors = "+errors);
+    }
+}
+
+
+
+
+// Add an event listener to each quantity input for real-time validation
+document.querySelectorAll('.quantity-input').forEach((input, i) => {
+  input.addEventListener('input', function () {
+      const quantityMessage = document.getElementById(`quantity_textbox_${i}_message`);
+      const qty = Number(this.value);
+      const validationMessage = validateQuantity(qty, products[i]["qty_available"]);
+
+      // Update error message dynamically
+      quantityMessage.textContent = validationMessage;
+  });
+});
+
 
   
 // Function to validate quantity

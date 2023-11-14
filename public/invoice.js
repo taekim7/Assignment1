@@ -3,7 +3,6 @@
 
 //Product Data
 const params = (new URL (document.location)).searchParams;
-
 let quantity = [];
 
 for (let i = 0; i < products.length; i++) {
@@ -12,6 +11,7 @@ for (let i = 0; i < products.length; i++) {
     quantity [products[i].quantityIndex] = Number (quantityValue);
   }
 }
+
 
 
 //Variables for subtotal, tax, shipping charge, and total
@@ -35,13 +35,12 @@ if (subtotal <= 300) {
 taxAmount = subtotal * taxRate;
 total = subtotal + taxAmount + shippingCharge;
 
-//Setting total cell
-document.getElementById('total_cell').innerHTML = `$${total.toFixed(2)}`;
 
 //Setting subtotal, tax, and total cells
 document.getElementById('subtotal_cell').innerHTML = '$' + subtotal.toFixed(2);
 document.getElementById('tax_cell').innerHTML = '$' + taxAmount.toFixed(2);
 document.getElementById('shipping_cell').innerHTML = '$' + shippingCharge.toFixed(2);
+document.getElementById('total_cell').innerHTML = `$${total.toFixed(2)}`;
 
 //I tried a different method..but it didn't work
 function validateQuantity (quantity) {

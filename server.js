@@ -21,32 +21,6 @@ for (i in products) {
   products.forEach( (prod,i) => {prod.total_sold = 0});
 }
 
-
-/*
-// Example using fs.promises.readFile (asynchronous)
-const fs = require('fs').promises;
-
-// Use an asynchronous function to load products
-async function loadProducts() {
-    try {
-        const data = await fs.readFile('products.json', 'utf-8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Error loading products:', error);
-        return [];
-    }
-}
-//load products once the server starts
-async function loadProducts() {
-    try{
-        let data = await FileSystem.readFile(__dirname + '/products.json');
-        products = JSON.parse(data);
-    } catch (err) {
-        console.error('Error loading products: ' + err);
-    }
-    }
-*/
-
     
 // Define a route for handling a GET request to a path that matches "./products.js"
 app.get('/products.js', function(request, response, next) {
@@ -61,6 +35,8 @@ app.get('/products.js', function(request, response, next) {
 
 app.use(express.urlencoded({ extended: true }));
 
+
+
 // Monitor all requests regardless of their method (GET, POST, PUT, etc) and their path (URL)
 app.all('*', function (request, response, next) {
 	console.log(request.method + ' to ' + request.path);
@@ -68,9 +44,9 @@ app.all('*', function (request, response, next) {
  });
 
 
-//Process Form Stuff
+/////////////////////////////////////////////////////////////////////////////Process Form Stuff////////////////////////////////////////////////////////////////////////////////////
  app.post("/process_form", function (request, response) {
-  
+        console.log("Processing form...");
   let POST = request.body;
 
     // Loop through the products
@@ -111,59 +87,21 @@ app.all('*', function (request, response, next) {
 
 
 
-/*
-// Process form
-app.post("/process_form", function (request, response) {
-    let hasValidationErrors = false;
-    let url = '/store'; // Redirect URL for store page
-    let quantities = [];
-  
-
-    // Loop through the products
-    for (let i in products) {
-      let qty = Number(request.body[`quantity_textbox${i}`]);
-      let validationMessage = validateQuantity(qty, products[i]["qty_available"]);
-  
-      // Validate quantity
-      if (validationMessage === "") {
-        // Update the quantities array
-        quantities.push(qty);
-  
-        // Append information to the URL string
-        url += `&prod${i}=${qty}`;
-      } else {
-        hasValidationErrors = true;
-        break; // Break the loop if there is an error
-      }
-    }
-  
-    // If there are validation errors, redirect to the store with an error parameter
-    if (hasValidationErrors) {
-      response.redirect(`${url}?error=true`);
-    } else {
-      // If there are no errors, update quantities in the products array
-      for (let i in products) {
-        // Assuming products is an array of items with a corresponding index
-        products[i]['qty_available'] -= quantities[i];
-        products[i]['total_sold'] += quantities[i];
-      }
-  
-      // Redirect to invoice.html with relevant data
-      response.redirect(`/invoice.html${url}`);
-    }
-  });
-*/
-
-/*
-// Redirect route
-app.get('./public/invoice.html', function (request, response) {
-    // You can include any necessary logic or data here before rendering the receipt page
-    response.sendFile(__dirname + './public/invoice.html');
-});
-*/
-
  // Start the server; listen on port 8080 for incoming HTTP requests
  app.listen(8080, () => console.log(`listening on port 8080`));
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Validate Quantity

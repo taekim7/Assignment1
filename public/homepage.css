@@ -37,7 +37,7 @@ h2 {
 
 h3 {
     font-family: 'Quicksand', sans-serif; /* Change "Your Desired Font" to the font you want to use */
-    font-size: 15px; /* Change the font size as needed */
+    font-size: 50px; /* Change the font size as needed */
 }
 
 /* Remove the navbar's default rounded borders and increase the bottom margin */ 
@@ -56,3 +56,22 @@ h3 {
     background-color: #f2f2f2;
     padding: 25px;
   }
+
+  .navbar-header {
+    float: left;
+}
+
+.navbar-nav {
+    float: left;
+    margin: 0;
+}
+
+.navbar-right {
+    float: right;
+}
+
+.navbar-brand img {
+    height: 500px; /* Adjust the height of the logo as needed */
+    width: 1000px;
+    margin-top: 5px; /* Adjust the margin-top of the logo as needed */
+}
