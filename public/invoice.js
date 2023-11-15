@@ -4,6 +4,12 @@
 //Product Data
 const params = (new URL (document.location)).searchParams;
 let quantity = [];
+let q = Number(params.get('quantity'));
+let error = params.get('error');
+
+if (error){
+  alert(error);
+}
 
 for (let i = 0; i < products.length; i++) {
   let quantityValue = params.get(`quantity${i}`);

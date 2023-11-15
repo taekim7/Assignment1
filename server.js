@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 __dirname represents the directory of the current module (where server.js is located)
 __dirname + "./products.json" specifies the location of products.json
 */
-let products = require(__dirname + '/products.json');
+const products = require(__dirname + '/products.json');
 
 for (i in products) {
   products.forEach( (prod,i) => {prod.total_sold = 0});
@@ -78,7 +78,6 @@ app.all('*', function (request, response, next) {
         products[i]['qty_available'] -= quantities[i];
         products[i]['total_sold'] += Number(quantities[i]);
       }
-  
       // Redirect to invoice.html with relevant data
       response.redirect("/invoice.html?valid&"+qs.stringify(request.body));
     }
@@ -89,16 +88,6 @@ app.all('*', function (request, response, next) {
 
  // Start the server; listen on port 8080 for incoming HTTP requests
  app.listen(8080, () => console.log(`listening on port 8080`));
-
-
-
-
-
-
-
-
-
-
 
 
 

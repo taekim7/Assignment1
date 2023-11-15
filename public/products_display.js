@@ -3,7 +3,6 @@
 const productForm = document.getElementById('productForm');
 
 
-
 // declare and push to the DOM the store name at top and bottom
 let store_name = "Cool Shoe Store";
 top_title.innerHTML = store_name;
@@ -11,7 +10,6 @@ top_title.innerHTML = store_name;
 bottom_title.innerHTML = "Wear History. It's cool.";
 
 let productDisplayContainer = document.getElementById('product-display-container');
-
 
 // Function to generate table rows and apply quantity validation
 for (let i = 0; i < products.length; i++) {
