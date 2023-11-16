@@ -1,99 +1,113 @@
-//invoice.js
+//Invoice JS
 
 
-//Product Data
-const params = (new URL (document.location)).searchParams;
-let quantity = [];
-let q = Number(params.get('quantity'));
-let error = params.get('error');
-
-if (error){
-  alert(error);
-}
-
-for (let i = 0; i < products.length; i++) {
-  let quantityValue = params.get(`quantity${i}`);
-  if (quantityValue !== null){
-    quantity [products[i].quantityIndex] = Number (quantityValue);
-  }
-}
-
-
-
-//Variables for subtotal, tax, shipping charge, and total
+//initializes variables
+let extendedPrices = [];
+let extendedPrice = 0;
 let subtotal = 0;
-let taxRate = 0.04;
 let taxAmount = 0;
-let total = 0;
-let shippingCharge = 0;
+let shipping = 0;
 
+//opens the url params
+let params = (new URL(document.location)).searchParams;
+        //initializes empty order array
+        let order = [];
+        //for each prod, push the value to the array
+        params.forEach((value,key) => {
+            if (key.startsWith('prod')) {
+                    order.push(parseInt(value));
+                }
+        });
+
+        
+//generate all the item rows
 generateItemRows();
 
-if (subtotal <= 300) {
-  shippingCharge = 5;
-} else if (subtotal <= 600) {
-  shippingCharge = 10;
-} else {
-  shippingCharge = subtotal * 0.04;
+//calculate tax
+ let tax = (subtotal*0.04);
+
+//checks the shipping price
+if(subtotal <= 300)
+{
+    shipping = 20;
+}else if(subtotal <=600)
+{
+    shipping = 40;
+}
+else{
+    shipping = subtotal*.04;
 }
 
-//Calculate total with shipping
-taxAmount = subtotal * taxRate;
-total = subtotal + taxAmount + shippingCharge;
+//calculates total
+let total = tax+subtotal+shipping;
 
 
-//Setting subtotal, tax, and total cells
-document.getElementById('subtotal_cell').innerHTML = '$' + subtotal.toFixed(2);
-document.getElementById('tax_cell').innerHTML = '$' + taxAmount.toFixed(2);
-document.getElementById('shipping_cell').innerHTML = '$' + shippingCharge.toFixed(2);
-document.getElementById('total_cell').innerHTML = `$${total.toFixed(2)}`;
+//insert footer row values
+document.getElementById("subtotal_cell").innerHTML = "$" + subtotal.toFixed(2);
+document.getElementById("tax_cell").innerHTML = "$" + tax.toFixed(2);
+document.getElementById("shipping_cell").innerHTML = "$"+shipping.toFixed(2);
+document.getElementById("total_cell").innerHTML = "$"+total.toFixed(2);
 
-//I tried a different method..but it didn't work
-function validateQuantity (quantity) {
-  if (isNaN(quantity)) {
-  return "Not a number";
-  }else if (quantity < 0 && !Number.isInteger(quantity)) {
-  return "Negative Inventory and not an integer";
-  }else if (quantity <0){
-  return "Negative Inventory";
-  }else if (!Number.isInteger(quantity)){
-  return "not an integer";
-  }else {
-  return "";
-  }
-  }
-  
 
-//function to generate table rows and apply quantity validation
-function generateItemRows() {
-  let table = document.getElementById('invoiceTable');
-  table.innerHTML = '';
-  let hasErrors = false;
-  
-  for (let i = 0; i < products.length; i++) {
-    let item = products[i];
-    let itemQuantity = quantity[item.quantityIndex];
-
-    let validationMessage = validateQuantity(itemQuantity);
-    if (validationMessage !== "") {
-      hasErrors = true;
-      let row = table.insertRow();
-      row.insertCell(1).innerHTML = item.name;
-      row.insertCell(2).innerHTML = validationMessage;
-    } else if (itemQuantity > 0) {
-      let extendedPrice = item.price * itemQuantity;
-      subtotal += extendedPrice;
-
-      let row = table.insertRow();
-      row.insertCell(0).innerHTML = `<img src="${item.image}" class="table-image" alt="Product Image">`;
-      row.insertCell(1).innerHTML = item.name;
-      row.insertCell(2).innerHTML = itemQuantity;
-      row.insertCell(3).innerHTML = '$' + item.price.toFixed(2);
-      row.insertCell(4).innerHTML = '$' + extendedPrice.toFixed(2);
+//function to validate the quantity, returns a string if not a number, negative, not an integer, or a combination of both
+//if no errors in quantity, returns empty string
+function validateQuantity(quantity){
+    if(isNaN(quantity)){
+        return "Please Enter a Number";
+    }else if (quantity<0 && !Number.isInteger(quantity)){
+        return "Please Enter a Positive Integer";
+    }else if (quantity <0){
+        return "Please Enter a Positive Number";
+    }else if(!Number.isInteger(quantity)){
+        return "Please Enter an Integer";
+    }else{
+        return"";
     }
+
+}
+//generate all the item rows
+function generateItemRows(){
+
+    //sets table to the invoice table on the html
+    let table = document.getElementById("invoiceTable");
+
+    //checks if it has errors, set it to no for now
+    let hasErrors = false; 
+
+    //for each member of the array
+    for(let i=0;i<products.length;i++){
+        
+        //sets item and itemQuantity from the products array, and the array gotten from the url
+        let item = products[i];
+        let itemQuantity = order[i];
+        
+        //validate the quantity, we are just kinda looking for if its negative so we dont show it
+        let validationMessage = validateQuantity(itemQuantity);
+        
+        
+        //if there is an error, just ignore this 
+        if(validationMessage !== ""){
+            hasErrors = true;
+            let row =table.insertRow();
+            row.insertCell(0).insertHTML = item.name;
+            row.insertCell(1).innerHTML = validationMessage;
+        } 
+        //otherwise, lets create the row in the invoice and update the extended price and subtotal
+        else if(itemQuantity >0){
+            //update the variables
+            extendedPrice = item.price * itemQuantity;
+            subtotal += extendedPrice;
+
+            //create a new row and insert the info
+            let row = table.insertRow();
+            row.insertCell(0).innerHTML = `<img src="${item.image}" class="img-small" name = "img" data-tooltip="${item.description}">`;
+            row.insertCell(1).innerHTML = item.name;
+            row.insertCell(2).innerHTML = itemQuantity;
+            row.insertCell(3).innerHTML = "$" + item.price.toFixed(2);
+            row.insertCell(4).innerHTML = "$"+extendedPrice.toFixed(2);
+
+        }
+
     }
-    //if no error, display total
-    if (!hasErrors){
-      document.getElementById('total_cell').innerHTML = '$' + total.toFixed(2);
-    }
-  }
+
+}
