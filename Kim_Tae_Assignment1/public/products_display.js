@@ -1,14 +1,14 @@
 //products_display.js
 
-//set up params from headder, order array, and error value
+//get parameters
 let params = (new URL(document.location)).searchParams;
 let error;
 let order = [];
 
-//get if there was an error before
+//get error value
 error = params.get('error');
 
-//fill order array with item ammounts from previous attempts
+//get order array
 params.forEach((value,key) => {
     if (key.startsWith('prod')) {
             order.push(parseInt(value));
@@ -16,14 +16,13 @@ params.forEach((value,key) => {
 });
 console.log('Order Array:', order);
 
-//if there is an error submitted, then show the error text in errorDiv
+//Populate error message
 if(error == 'true'){
     
     document.getElementById('errorDiv').innerHTML += `<h2 class="text-danger"></h2><br>`;
 }
 
-//Populate products display with product information
-
+//Populate products
 for (let i = 0; i < products.length; i++) {
     document.querySelector('.row').innerHTML += 
         `<div class="col-md-6 product_name mb-4">
@@ -47,7 +46,7 @@ for (let i = 0; i < products.length; i++) {
         validateQuantity(document.getElementById(`${[i]}`));
  ;}
 
-//Validate each quantity and throw out error message if something is wrong. 
+//function to validate the quantity, returns a string if not a number, negative, not an integer, or a combination of both
     function validateQuantity(quantity){
         //set variables, and grab number from the quantity and set it to an number
         let valMessage = '';

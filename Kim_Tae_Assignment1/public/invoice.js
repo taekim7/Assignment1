@@ -1,14 +1,14 @@
 //Invoice JS
 
 
-//initializes variables
+//global variables
 let extendedPrices = [];
 let extendedPrice = 0;
 let subtotal = 0;
 let taxAmount = 0;
 let shipping = 0;
 
-//opens the url params
+//gets the order from the url
 let params = (new URL(document.location)).searchParams;
         //initializes empty order array
         let order = [];
@@ -26,7 +26,7 @@ generateItemRows();
 //calculate tax
  let tax = (subtotal*0.04);
 
-//checks the shipping price
+//calculate shipping
 if(subtotal <= 300)
 {
     shipping = 20;
@@ -42,7 +42,7 @@ else{
 let total = tax+subtotal+shipping;
 
 
-//insert footer row values
+//set the values
 document.getElementById("subtotal_cell").innerHTML = "$" + subtotal.toFixed(2);
 document.getElementById("tax_cell").innerHTML = "$" + tax.toFixed(2);
 document.getElementById("shipping_cell").innerHTML = "$"+shipping.toFixed(2);
@@ -50,7 +50,6 @@ document.getElementById("total_cell").innerHTML = "$"+total.toFixed(2);
 
 
 //function to validate the quantity, returns a string if not a number, negative, not an integer, or a combination of both
-//if no errors in quantity, returns empty string
 function validateQuantity(quantity){
     if(isNaN(quantity)){
         return "Please Enter a Number";
@@ -65,40 +64,40 @@ function validateQuantity(quantity){
     }
 
 }
-//generate all the item rows
+//function to generate the item rows
 function generateItemRows(){
 
-    //sets table to the invoice table on the html
+    //get the table
     let table = document.getElementById("invoiceTable");
 
-    //checks if it has errors, set it to no for now
+    //clear the table
     let hasErrors = false; 
 
-    //for each member of the array
+    //loop through the products
     for(let i=0;i<products.length;i++){
         
-        //sets item and itemQuantity from the products array, and the array gotten from the url
+        //set the variables
         let item = products[i];
         let itemQuantity = order[i];
         
-        //validate the quantity, we are just kinda looking for if its negative so we dont show it
+        //validate the quantity
         let validationMessage = validateQuantity(itemQuantity);
         
         
-        //if there is an error, just ignore this 
+        //if there is an error, add the error to the table
         if(validationMessage !== ""){
             hasErrors = true;
             let row =table.insertRow();
             row.insertCell(0).insertHTML = item.name;
             row.insertCell(1).innerHTML = validationMessage;
         } 
-        //otherwise, lets create the row in the invoice and update the extended price and subtotal
+        //else if there is no error, add the item to the table
         else if(itemQuantity >0){
             //update the variables
             extendedPrice = item.price * itemQuantity;
             subtotal += extendedPrice;
 
-            //create a new row and insert the info
+            //add the item to the table
             let row = table.insertRow();
             row.insertCell(0).innerHTML = `<img src="${item.image}" class="img-small" name = "img" data-tooltip="${item.description}">`;
             row.insertCell(1).innerHTML = item.name;
